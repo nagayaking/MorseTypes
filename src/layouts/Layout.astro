@@ -1,5 +1,9 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
 <!doctype html>
-<html lang="en">
+<html lang="jp" data-theme="DARK">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -9,15 +13,47 @@
 		<title>Astro Basics</title>
 	</head>
 	<body>
+		<Header />
 		<slot />
+		<Footer />
 	</body>
 </html>
 
-<style>
+<style is:global>
+	/* 上にあるデモからカラーに関することだけ抜粋 */
+
+	/* 「LIGHT」テーマのカラー設定 */
+	:root[data-theme='LIGHT'] {
+	--color-background: #F5F5F5;
+	--color-main: #6D4C41;
+	--color-sub: #FF9800;
+	}
+
+	/* 「DARK」テーマのカラー設定 */
+	:root[data-theme='DARK'] {
+	--color-background: #37474F;
+	--color-main: #64B5F6;
+	--color-sub: #F5F5F5;
+	}
+	
 	html,
 	body {
 		margin: 0;
 		width: 100%;
 		height: 100%;
+		color: var(--color-main);
+		background: var(--color-background);
 	}
+	
+		.background {
+		background: var(--color-background);
+		}
+	
+		.main-text {
+		color: var(--color-main);
+		}
+	
+		.sub-text {
+		color: var(--color-sub);
+		}
 </style>
