@@ -1,0 +1,11 @@
+---
+import Setting from '../../components/typing/Settings';
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout>
+	//  正しい呼び出し方
+	<Setting count={10} client:load>
+	<span>現在のカウント</span>
+	</Setting>
+</Layout>
