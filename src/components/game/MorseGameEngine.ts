@@ -14,7 +14,7 @@ export class MorseGameEngine {
   private getInitialState(): GameState {
     return {
       currentQuestionIndex: 0,
-      currentKanaIndex: 0,
+      currentCharIndex: 0,
       currentStrokeIndex: 0,
       score: 0,
       combo: 0,
@@ -34,26 +34,29 @@ export class MorseGameEngine {
     return this.questions[this.state.currentQuestionIndex];
   }
 
-  /**
-   * ボタンの押下時間から「・」か「ー」かを判定
-   */
   public judgeDuration(durationMs: number): '・' | 'ー' {
     return durationMs >= this.config.dashThresholdMs ? 'ー' : '・';
   }
 
   /**
-   * 入力されたモールス記号の正誤判定
+   * タイムアウト時などに、現在入力中の文字の進捗を最初に戻す
+   * （コンボは維持するかリセットするか選べますが、今回はペナルティとしてコンボもリセットにしています）
    */
+  public resetCurrentStroke(): void {
+    this.state.currentStrokeIndex = 0;
+    this.state.combo = 0; // 放置によるリセットなのでコンボもクリア
+  }
+
   public inputSignal(signal: '・' | 'ー'): { isCorrect: boolean; isWordCleared: boolean; isQuestionCleared: boolean } {
     const currentQuestion = this.getCurrentQuestion();
     if (!currentQuestion) return { isCorrect: false, isWordCleared: false, isQuestionCleared: false };
 
-    const targetMorse = currentQuestion.morseCodes[this.state.currentKanaIndex];
+    const targetMorse = currentQuestion.morseCodes[this.state.currentCharIndex];
     const expectedSignal = targetMorse[this.state.currentStrokeIndex];
 
-    // 不正解の場合（日本語1文字単位でリセット）
+    // 不正解の場合（1文字単位でリセット）
     if (signal !== expectedSignal) {
-      this.state.currentStrokeIndex = 0; // 入力中のモールスをクリア
+      this.state.currentStrokeIndex = 0; // 入力中のモールスをその文字の最初に戻す
       this.state.combo = 0;
       this.state.mistakeCount++;
       return { isCorrect: false, isWordCleared: false, isQuestionCleared: false };
@@ -62,20 +65,21 @@ export class MorseGameEngine {
     // 正解の場合
     this.state.currentStrokeIndex++;
     this.state.combo++;
-    this.state.score += 10 * (this.state.combo > 5 ? 1.5 : 1); // 簡易コンボボーナス
+    // コンボボーナス（簡易版）
+    this.state.score += 10 * (this.state.combo > 5 ? 1.5 : 1);
 
-    // 現在の日本語1文字のモールスが完了したか
+    // 現在の1文字の打鍵が完了したか
     const isWordCleared = this.state.currentStrokeIndex === targetMorse.length;
     let isQuestionCleared = false;
 
     if (isWordCleared) {
       this.state.currentStrokeIndex = 0;
-      this.state.currentKanaIndex++;
+      this.state.currentCharIndex++;
 
       // 問題全体のすべての文字が完了したか
-      if (this.state.currentKanaIndex === currentQuestion.morseCodes.length) {
+      if (this.state.currentCharIndex === currentQuestion.morseCodes.length) {
         isQuestionCleared = true;
-        this.state.currentKanaIndex = 0;
+        this.state.currentCharIndex = 0;
         this.state.currentQuestionIndex++;
       }
     }
