@@ -1,6 +1,7 @@
 // useMorseGame.ts
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { MorseGameEngine } from './MorseGameEngine';
+import { MorseDictionary } from './MorseDictionary';
 import type { MorseQuestion, GameConfig } from './types';
 
 // ゲーム設定に自動リセット時間を追加（例: 1500ms 未入力でリセット）
@@ -75,11 +76,16 @@ export const useMorseGame = (initialQuestions: MorseQuestion[], config: Extended
     return () => clearIdleTimer();
   }, [clearIdleTimer]);
 
+  const getAllMappings = useCallback(() => {
+    return MorseDictionary.getAllMappings();
+  }, []);
+
   return {
     gameState,
     currentQuestion,
     startInput,
     endInput,
+    getAllMappings,
     isPressing: pressStartTime.current !== null,
   };
 };

@@ -1,15 +1,18 @@
 // MorseGameComponent.tsx
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMorseGame } from './useMorseGame';
 import type { MorseQuestion } from './types';
+import { MORSE_THEMES } from '../../themes/constants';
+import { applyTheme } from '../../themes/utils';
 import '../../styles/MorseGame.css'
 
 const mockQuestions: MorseQuestion[] = [
+  { id: '1', phrase: '朝日旭あさひ', displayChars: 'あさひあさひあさひ', morseCodes: ['ーー・ーー', 'ーー・ー・', 'ーー・・', 'ーー・ーー', 'ーー・ー・', 'ーー・・', 'ーー・ーー', 'ーー・ー・', 'ーー・・'] },
   { id: '1', phrase: '朝日', displayChars: 'あさひ', morseCodes: ['ーー・ーー', 'ーー・ー・', 'ーー・・'] }
 ];
 
 export const MorseGameComponent: React.FC = () => {
-  const { gameState, currentQuestion, startInput, endInput } = useMorseGame(mockQuestions, {
+  const { gameState, currentQuestion, startInput, endInput, getAllMappings } = useMorseGame(mockQuestions, {
     dashThresholdMs: 200,
     idleTimeoutMs: 1800
   });
@@ -55,6 +58,14 @@ export const MorseGameComponent: React.FC = () => {
     }
     return 'pending';
   };
+  const [currentThemeId, setCurrentThemeId] = useState('cyber-dark');
+
+  useEffect(() => {
+    const activeTheme = MORSE_THEMES.find(t => t.id === currentThemeId);
+    if (activeTheme) {
+      applyTheme(activeTheme); // ここでCSS変数が一瞬で切り替わる！
+    }
+  }, [currentThemeId]);
 
   return (
     <div className="morse-game-container">
@@ -117,6 +128,27 @@ export const MorseGameComponent: React.FC = () => {
         </button>
         <p className="input-hint">※画面のボタン長押し、またはスペースキーの長押しで入力できます</p>
       </div>
+
+      <hr className="divider" />
+
+      {/* 4. モールス信号と日本語の対応表データ一覧（常時全表示） */}
+      {/*
+      <div className="mapping-table-section">
+        <h3>モールス信号 対応表</h3>
+        <div className="mapping-grid">
+          {getAllMappings().map((item) => (
+            <div key={item.char} className="mapping-item">
+              <span className="mapping-char">{item.char}</span>
+              <span className="mapping-code">{item.code}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      */}
+      {/* テーマ切り替え用のセレクトボックス */}
+      <select value={currentThemeId} onChange={(e) => setCurrentThemeId(e.target.value)}>
+        {MORSE_THEMES.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+      </select>
     </div>
   );
 };
