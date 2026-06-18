@@ -1,0 +1,108 @@
+.morse-game-container {
+  /* max-width: 600px; */
+  margin: 2rem 2rem;
+  padding: 1.5rem;
+  background-color: #0f172a;
+  color: #ffffff;
+  border-radius: 0.75rem;
+  font-family: sans-serif;
+}
+
+/* 統計情報 */
+.game-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin-bottom: 1.5rem;
+}
+
+/* 問題表示エリア */
+.game-display {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.game-phrase {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* 文字リストとインジケーター */
+.char-list {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+.char-box {
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  border: 1px solid #334155;
+  background-color: transparent;
+}
+.char-box--current {
+  border-color: #fbbf24;
+  background-color: #1e293b;
+}
+
+/* 文字とシグナルの色同期 */
+.char-text { font-size: 1.25rem; font-weight: bold; }
+.char-text--past { color: #34d399; }
+.char-text--current { color: #ffffff; }
+.char-text--future { color: #64748b; }
+
+.morse-guide {
+  font-family: monospace;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+.morse-signal--completed { color: #34d399; }
+.morse-signal--active { color: #fbbf24; font-weight: bold; animation: pulse 1s infinite; }
+.morse-signal--pending { color: #475569; }
+
+/* タップボタン */
+.input-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.morse-tap-button {
+  width: 128px;
+  height: 128px;
+  background-color: #f59e0b;
+  color: #0f172a;
+  font-weight: bold;
+  font-size: 1.25rem;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.075s;
+}
+.morse-tap-button:active { background-color: #d97706; }
+.input-hint { font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; }
+
+.divider { border: 0; border-top: 1px solid #334155; margin: 1.5rem 0; }
+
+/* 下部対応表 */
+.mapping-table-section h3 { font-size: 1rem; color: #94a3b8; margin-bottom: 0.5rem; }
+.mapping-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+}
+.mapping-item {
+  display: flex;
+  flex-direction: column;
+  background: #1e293b;
+  padding: 0.25rem 0.25rem;
+  border-radius: 0.25rem;
+  text-align: center;
+}
+.mapping-char { font-weight: bold; color: #f8fafc; }
+.mapping-code { font-family: monospace; color: #34d399; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

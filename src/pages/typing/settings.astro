@@ -1,6 +1,7 @@
 ---
-import Setting from '../../components/listening/Settings.tsx';
+import Setting from '../../components/settings/DefaultSettings.tsx';
 import Layout from '../../layouts/Layout.astro';
+import Button from '../../components/Button.tsx';
 ---
 
 <Layout>
@@ -8,4 +9,6 @@ import Layout from '../../layouts/Layout.astro';
 	<Setting count={10} client:load>
 	<span>現在のカウント</span>
 	</Setting>
+
+	<Button href="/typing/game">game start</Button>
 </Layout>
