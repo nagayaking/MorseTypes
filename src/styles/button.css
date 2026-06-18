@@ -1,19 +1,4 @@
----
-import Button from "./Button"
----
-
-<p>Practice</p>
-<Button href="/typing/settings/">タイピング練習</Button>
-<Button href="/listening/settings/">リスニング練習</Button>
-
-<p>PvP</p>
-<Button>ローカル対戦</Button>
-<Button>オンライン対戦</Button>
-
-
-
-<style>
-    /* .btn {
+    .btn {
     appearance: none;
     background-color: 
     transparent;
@@ -61,5 +46,4 @@ import Button from "./Button"
     .btn:active {
     box-shadow: none;
     transform: translateY(0);
-    } */
-</style>
+    }
