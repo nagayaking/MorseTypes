@@ -1,12 +1,8 @@
 import Button from "../Button";
 import { useState, useRef } from "react";
 import { countThreshold } from "../stores";
-import { useStore } from "@nanostores/react";
+import{ EXAM_TEXTS } from '../../data/wordList';
 
-const exampleText:[{id:number, text: string, textHurigana: string}, {id:number, text: string, textHurigana: string}] = [
-    {id: 1, text: "今日", textHurigana: "きょう"},
-    {id: 2, text: "明日", textHurigana: "あした"}
-]
 export default function Typing(){
     const [morseBuffer, setMorseBuffer] = useState("");
 
