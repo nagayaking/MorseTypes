@@ -1,10 +1,17 @@
 import Button from "../Button";
 import { useState, useRef } from "react";
 import { countThreshold } from "../stores";
-import{ EXAM_TEXTS } from '../../data/wordList';
+import { EXAM_TEXTS, type Question } from '../../data/wordList';
 
 export default function Typing(){
+    // モールス信号を入れておくバッファ（ひらがな一文字単位）
     const [morseBuffer, setMorseBuffer] = useState("");
+    // 現在、何問目かをカウントするState
+    const [currentExamNumber, setCurrenExamNumber] = useState(0);
+    // EXAM_TEXTSのインデックスをシャッフルして管理するState
+    const [examNumbers, setExamNumbers] = useState(shuffleArray(Array.from({length:EXAM_TEXTS.length}, (_, i: number) => i)));
+    // 現在の問題を入れておく変数
+    const currentExamText:string = EXAM_TEXTS[examNumbers[currentExamNumber]].text
 
     // 入力したモールス信号を受け取ってバッファに追加する関数
     function handleAddSymbol(newSymbol: string) {
@@ -16,6 +23,7 @@ export default function Typing(){
         <MorseKeypad onInput={handleAddSymbol}/>
         {/* テスト表示用 */}
         <div>現在のバッファ: {morseBuffer}</div>
+        <WordDisplay text={ currentExamText }/>
         </>
     )
 }
@@ -24,8 +32,17 @@ export default function Typing(){
 function ScoreBoard(){
 }
 
+interface WordDisplayProps {
+    text: string;
+}
 // 問題文表示
-function WordDisplay(){}
+function WordDisplay({text}:WordDisplayProps){
+    return(
+        <>
+        <div>{ text }</div>
+        </>
+    )
+}
 
 // 入力中のデータ表示
 function InputStatus(){}
@@ -80,3 +97,11 @@ function MorseKeypad({ onInput }: MorseKeypadProps){
         </>
     )
 }
+
+const shuffleArray = (array:any[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+};
