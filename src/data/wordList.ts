@@ -6,6 +6,6 @@ export type Question = {
 
 // 問題データの配列
 export const EXAM_TEXTS: Question[] = [
-    { id: 1, text: "今日", textHurigana: "きょう" },
+    { id: 1, text: "今日", textHurigana: "きよう" },
     { id: 2, text: "明日", textHurigana: "あした" },
 ];
