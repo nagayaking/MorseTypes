@@ -15,6 +15,8 @@ export default function Typing(){
     const [examNumbers, setExamNumbers] = useState<number[]>([]);
     // 問題の何文字目を打っているかを管理するState
     const [currentExamPointer, setCurrenExamPointer] = useState(0);
+    // 現在エラー中かを管理するState
+    const [isError, setIsError] = useState(false);
     // ゲームが終了したかを管理するState
     const [isGameFinished, setIsGameFinished] = useState(false);
     
@@ -32,28 +34,34 @@ export default function Typing(){
     if (isGameFinished) {
         return <div>全問正解！！</div>
     }
-
+    
     // 現在の問題を入れておく変数
     // 本文
     const currentExamText:string = EXAM_TEXTS[examNumbers[currentExamNumber]].text;
     // ふりがな
     const currentExamHurigana:string = EXAM_TEXTS[examNumbers[currentExamNumber]].textHurigana;
 
-    // 入力したモールス信号を受け取ってバッファに追加する関数
+    // 正解のひらがな（一文字）
+    const answerHiragana: string = currentExamHurigana[currentExamPointer];
+    // 正解のひらがな（一文字）をモールス信号に変換したもの
+    const answerMorsecode: string = HIRAGANA_MAP[answerHiragana];
+
     function handleAddSymbol(newSymbol: string) {
+        // 入力したモールス信号を受け取ってバッファに追加する
         const newMorse:string = morseBuffer + newSymbol;
         setMorseBuffer(newMorse);
         bufferRef.current = newMorse;
+
+        // 間違った入力をしているかの判定
+        if(!answerMorsecode.startsWith(newMorse) && !isError){
+            setIsError(true);
+        }
     }
 
     // 一定時間モールス信号の入力がなかったときに発火する関数
     function convert(){
         // 入力されたものをモールス信号に変換したもの
         const inputHiragana: string = MORSECODE_MAP[bufferRef.current];
-        // 正解のひらがな
-        const answerHiragana: string = currentExamHurigana[currentExamPointer];
-        // 正解のひらがなをモールス信号に変換したもの
-        const answerMorsecode: string = HIRAGANA_MAP[answerHiragana];
         console.log(currentExamPointer);
         console.log(currentExamHurigana.length);
 
@@ -65,6 +73,7 @@ export default function Typing(){
                 bufferRef.current = "";
                 setCurrenExamNumber(x => x + 1);
                 setCurrenExamPointer(0);
+                setIsError(false);
                 // 全問正解の処理
                 if(currentExamNumber === examNumbers.length - 1){
                     setIsGameFinished(true);
@@ -75,12 +84,14 @@ export default function Typing(){
                 setMorseBuffer("");
                 bufferRef.current = "";
                 setCurrenExamPointer(x => x + 1);
+                setIsError(false);
             }
         }
         // 不正解判定
         else {
             setMorseBuffer("");
             bufferRef.current = "";
+            setIsError(false);
         }
     }
     
@@ -91,6 +102,24 @@ export default function Typing(){
         <div>現在のバッファ: {morseBuffer}</div>
         <div>ひらがなの問題: {currentExamHurigana[currentExamPointer]}</div>
         <WordDisplay text={ currentExamText }/>
+        <div className="morse-buffer-container">
+            {morseBuffer.split("").map((x, n) => {
+                // 1文字目からn番目の文字までの「これまでの入力の繋がり」を切り出す
+                const currentInputStr = morseBuffer.slice(0, n + 1);
+                
+                // 正解のモールス信号が、その「これまでの入力」と前方一致しているかチェック
+                const isCorrectPath = answerMorsecode.startsWith(currentInputStr);
+
+                return (
+                    <span 
+                        key={n} 
+                        className={!isCorrectPath ? "error-text" : "normal-text"}
+                    >
+                        {x}
+                    </span>
+                );
+            })}
+        </div>
         </>
     )
 }
