@@ -1,5 +1,6 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { countThreshold } from "../stores";
+import { startAudio, stopAudio } from "../../utils/sound";
 
 type MorseKeypadProps = {
     onInput: (symbol: string) => void;
@@ -11,12 +12,17 @@ export default function MorseKeypad({ onInput, cnv }: MorseKeypadProps){
     const startTimeRef = useRef(0);
     // setTimeoutのidを保持
     const idRef= useRef<ReturnType<typeof setTimeout>>(null);
+    // oscillatorを保存しておくRef
+    const oscillatorRef = useRef(null);
     // 短音長音のしきい値
     const threshold:number = countThreshold.get();
 
     // ボタンを押したとき。現在時刻を入手
     function handleMouseDown() {
         startTimeRef.current = performance.now();
+
+        // 音を流す
+        oscillatorRef.current = startAudio();
 
         // setTimeoutのクリア
         if (idRef.current !== null) {
@@ -39,6 +45,10 @@ export default function MorseKeypad({ onInput, cnv }: MorseKeypadProps){
 
         // タイマーのセット
         idRef.current = setTimeout(cnv, threshold*3);
+
+        // 音を止める
+        stopAudio(oscillatorRef.current);
+        oscillatorRef.current = null;
     }
 
     // ボタンを離す・ボタンからカーソルを離したとき
