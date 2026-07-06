@@ -14,7 +14,8 @@ export default function Typing(){
         handleAddSymbol,
         convert,
         clearTimeRef,
-        missCounter
+        missCounter,
+        resetGame
     } = useGameLogic();
 
     // ゲームクリアのチェック
@@ -23,6 +24,7 @@ export default function Typing(){
         <>
         <div>全問正解！！</div>
         <ScoreBoard clearTime={clearTimeRef.current} miss={missCounter}/>
+        <button className='btn' onClick={resetGame}>restart</button>
         </>
         )
     }

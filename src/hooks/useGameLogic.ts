@@ -99,6 +99,22 @@ const useGameLogic = () => {
         }
     }
 
+    // リスタート用のリセット関数
+    function resetGame() {
+        setMorseBuffer("");
+        setCurrenExamNumber(0);
+        setCurrenExamPointer(0);
+        setIsError(false);
+        setIsGameFinished(false);
+        setMissCounter(0);
+        setExamNumbers(shuffleArray(Array.from({length:EXAM_TEXTS.length}, (_, i: number) => i)));
+
+        bufferRef.current = "";
+        isGameRef.current = false;
+        startTimeRef.current = 0;
+        clearTimeRef.current = 0;
+    }
+
     return {
         morseBuffer,
         currentExamText,
@@ -110,7 +126,8 @@ const useGameLogic = () => {
         handleAddSymbol,
         convert,
         clearTimeRef,
-        missCounter
+        missCounter,
+        resetGame
     };
 }
 
