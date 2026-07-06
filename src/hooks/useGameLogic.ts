@@ -18,8 +18,16 @@ const useGameLogic = () => {
     const [currentExamPointer, setCurrenExamPointer] = useState(0);
     // 現在エラー中かを管理するState
     const [isError, setIsError] = useState(false);
+    // 現在ゲーム中かを管理するRef
+    const isGameRef = useRef(false);
     // ゲームが終了したかを管理するState
     const [isGameFinished, setIsGameFinished] = useState(false);
+    // ゲームのスタート時間を管理するRef
+    const startTimeRef = useRef(0);
+    // ゲームのクリアタイムを管理するRef
+    const clearTimeRef = useRef(0);
+    // ミス数を管理するState
+    const [missCounter, setMissCounter] = useState(0);
 
     // 現在の問題を入れておく変数
     // 本文
@@ -42,6 +50,11 @@ const useGameLogic = () => {
             if(!answerMorsecode.startsWith(newMorse) && !isError){
                 setIsError(true);
             }
+            // ゲームのスタート時間の測定
+            if(!(isGameRef.current)){
+                isGameRef.current = true;
+                startTimeRef.current = performance.now();
+            }
         }
     
         // 一定時間モールス信号の入力がなかったときに発火する関数
@@ -57,12 +70,16 @@ const useGameLogic = () => {
             if(currentExamPointer === currentExamHurigana.length - 1){
                 setMorseBuffer("");
                 bufferRef.current = "";
-                setCurrenExamNumber(x => x + 1);
                 setCurrenExamPointer(0);
                 setIsError(false);
                 // 全問正解の処理
                 if(currentExamNumber === examNumbers.length - 1){
+                    isGameRef.current = false;
                     setIsGameFinished(true);
+                    clearTimeRef.current = performance.now() - startTimeRef.current;
+                }
+                else {
+                    setCurrenExamNumber(x => x + 1);
                 }
             }
             // 次の文字へ
@@ -78,6 +95,7 @@ const useGameLogic = () => {
             setMorseBuffer("");
             bufferRef.current = "";
             setIsError(false);
+            setMissCounter(x => x + 1);
         }
     }
 
@@ -90,7 +108,9 @@ const useGameLogic = () => {
         isGameFinished,
         examNumbers,
         handleAddSymbol,
-        convert
+        convert,
+        clearTimeRef,
+        missCounter
     };
 }
 
