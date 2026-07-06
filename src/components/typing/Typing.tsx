@@ -65,7 +65,7 @@ function ScoreBoard({clearTime, miss}: ScoreBoardProps){
     return(
         <>
         <div>miss: { miss }</div>
-        <div>Clear Time: { Math.floor(clearTime/1000) }s</div>
+        <div>Clear Time: { Math.floor(clearTime/10)/100 }s</div>
         </>
     );
 }
