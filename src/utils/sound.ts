@@ -23,7 +23,7 @@ export function startAudio() {
     const gainNode = audioContext.createGain();
 
     // GainNodeの作成
-    gainNode.gain.value = countVolume.get()/750;
+    gainNode.gain.value = countVolume.get()/100;
 
     // GainNodeへの接続
     oscillator.connect(gainNode);
