@@ -1,13 +1,11 @@
 import { countVolume } from "../components/stores";
 
 const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-let audioContext: any = null;
+
+// AudioContextの作成
+const audioContext = new AudioContextClass();
 
 export function startAudio() {
-    // AudioContextの作成
-    if (!audioContext) {
-        audioContext = new AudioContextClass();
-    }
     if (audioContext.state === "suspended") {
         audioContext.resume();
     }
