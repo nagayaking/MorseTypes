@@ -13,7 +13,7 @@ export default function MorseKeypad({ onInput, cnv }: MorseKeypadProps){
     // setTimeoutのidを保持
     const idRef= useRef<ReturnType<typeof setTimeout>>(null);
     // oscillatorを保存しておくRef
-    const oscillatorRef = useRef(null);
+    const oscillatorRef = useRef<OscillatorNode | null>(null);
     // 短音長音のしきい値
     const threshold:number = countThreshold.get();
 
