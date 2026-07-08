@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import shuffleArray from "../utils/shuffle";
 import { EXAM_TEXTS } from "../data/wordList";
 import { HIRAGANA_MAP, MORSECODE_MAP } from "../data/morseMap";
+import { countNumberOfQuestion } from "../components/stores";
 
 const useGameLogic = () => {
     // モールス信号を入れておくバッファ（ひらがな一文字単位）
@@ -40,6 +41,10 @@ const useGameLogic = () => {
     // 正解のひらがな（一文字）をモールス信号に変換したもの
     const answerMorsecode: string = HIRAGANA_MAP[answerHiragana];
 
+    // 問題の数
+    const numberOfQuestion = countNumberOfQuestion.get();
+    console.log(numberOfQuestion);
+
     function handleAddSymbol(newSymbol: string) {
             // 入力したモールス信号を受け取ってバッファに追加する
             const newMorse:string = morseBuffer + newSymbol;
@@ -73,7 +78,7 @@ const useGameLogic = () => {
                 setCurrenExamPointer(0);
                 setIsError(false);
                 // 全問正解の処理
-                if(currentExamNumber === examNumbers.length - 1){
+                if(currentExamNumber === numberOfQuestion - 1){
                     isGameRef.current = false;
                     setIsGameFinished(true);
                     clearTimeRef.current = performance.now() - startTimeRef.current;

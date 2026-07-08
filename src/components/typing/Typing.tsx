@@ -1,7 +1,6 @@
 import MorseKeyPad from './MorseKeypad';
 import WordDisplay from "./WordDisplay";
 import useGameLogic from "../../hooks/useGameLogic";
-import { EXAM_TEXTS } from '../../data/wordList';
 
 export default function Typing(){
     const {
