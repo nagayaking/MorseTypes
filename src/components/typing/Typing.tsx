@@ -25,6 +25,7 @@ export default function Typing(){
         <div>全問正解！！</div>
         <ScoreBoard clearTime={clearTimeRef.current} miss={missCounter}/>
         <button className='btn' onClick={resetGame}>restart</button>
+        <a className='btn' onClick={resetGame} href='settings'>to settings</a>
         </>
         )
     }
@@ -42,24 +43,6 @@ export default function Typing(){
             pointer={ currentExamPointer } 
             morseBuffer={ morseBuffer }
         />
-        {/* <div className="morse-buffer-container">
-            {morseBuffer.split("").map((x, n) => {
-                // 1文字目からn番目の文字までの「これまでの入力の繋がり」を切り出す
-                const currentInputStr = morseBuffer.slice(0, n + 1);
-                
-                // 正解のモールス信号が、その「これまでの入力」と前方一致しているかチェック
-                const isCorrectPath = answerMorsecode.startsWith(currentInputStr);
-
-                return (
-                    <span 
-                        key={n} 
-                        className={!isCorrectPath ? "error-text" : "normal-text"}
-                    >
-                        {x}
-                    </span>
-                );
-            })}
-        </div> */}
         </>
     )
 }
