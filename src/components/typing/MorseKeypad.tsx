@@ -29,7 +29,7 @@ export default function MorseKeypad({ onInput, cnv }: MorseKeypadProps){
                 stopAudio(oscillatorRef.current);
             }
         }
-    })
+    }, [])
 
     // ボタンを押したとき。現在時刻を入手
     function handleMouseDown() {
