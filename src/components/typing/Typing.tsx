@@ -1,6 +1,7 @@
 import MorseKeyPad from './MorseKeypad';
 import WordDisplay from "./WordDisplay";
 import useGameLogic from "../../hooks/useGameLogic";
+import { EXAM_TEXTS } from '../../data/wordList';
 
 export default function Typing(){
     const {
@@ -34,9 +35,15 @@ export default function Typing(){
         <MorseKeyPad onInput={handleAddSymbol} cnv={convert}/>
         {/* テスト表示用 */}
         <div>現在のバッファ: {morseBuffer}</div>
+        <div>現在の問題: { currentExamText }</div>
         <div>ひらがなの問題: {currentExamHurigana[currentExamPointer]}</div>
-        <WordDisplay text={ currentExamText }/>
-        <div className="morse-buffer-container">
+        <WordDisplay 
+            text={ currentExamText } 
+            hurigana={ currentExamHurigana } 
+            pointer={ currentExamPointer } 
+            morseBuffer={ morseBuffer }
+        />
+        {/* <div className="morse-buffer-container">
             {morseBuffer.split("").map((x, n) => {
                 // 1文字目からn番目の文字までの「これまでの入力の繋がり」を切り出す
                 const currentInputStr = morseBuffer.slice(0, n + 1);
@@ -53,7 +60,7 @@ export default function Typing(){
                     </span>
                 );
             })}
-        </div>
+        </div> */}
         </>
     )
 }

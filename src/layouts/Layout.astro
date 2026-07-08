@@ -120,4 +120,64 @@ import "../styles/button.css"
     font-weight: bold;
     /* 必要に応じて、間違えた文字だけアニメーションで揺らすことも可能です！ */
 }
+
+/* 全体の横並びコンテナ（WordDisplayの一番外側） */
+.word-display-container {
+  display: flex;
+  justify-content: center; /* 画面の中央に配置 */
+  gap: 2rem;               /* 文字ごとの間隔（少し広めが見やすいです） */
+  font-size: 2rem;         /* 全体の文字サイズ */
+  font-weight: bold;
+}
+
+/* 1文字ごとのグループ（ひらがなとモールスを縦に並べる箱） */
+.character-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* 縦に並べた上で、中央揃えにする */
+  gap: 0.5rem;             /* ひらがなとモールス信号の上下の隙間 */
+}
+
+/* 上段：ひらがな部分 */
+.hiragana {
+  color: #333333;          /* 常に固定の濃いグレー */
+}
+
+/* 下段：モールス信号のコンテナ */
+.morse-code {
+  display: flex;
+  font-family: monospace;  /* 「・」や「－」の幅を均等にするため等幅フォントを指定 */
+  letter-spacing: 0.1rem;  /* 記号同士がくっつきすぎないように隙間をあける */
+  font-size: 1.5rem;       /* ひらがなより少し小さめにするとバランスが良いです */
+}
+
+/* =========================================
+   状態ごとの色の設定（モールス信号）
+   ========================================= */
+
+/* 1. 過去（すでに入力完了） */
+.morse-past {
+  color: #cccccc;          /* 背景に溶け込むような薄いグレー */
+  opacity: 0.6;            /* さらに少し透明にして存在感を消す */
+}
+
+/* 2. 未来（これから入力する文字） */
+.morse-future {
+  color: #888888;          /* 通常のグレー */
+}
+
+/* 3. 現在（入力中）の各記号の分解パーツ */
+.morse-normal {
+  color: #333333;          /* 今から打つべき記号。未来の文字より濃くしてフォーカスさせる */
+}
+
+.morse-correct {
+  color: #10b981;          /* 正解（鮮やかなエメラルドグリーン） */
+  text-shadow: 0 0 8px rgba(16, 185, 129, 0.4); /* 少し光らせるとゲームっぽさが出ます */
+}
+
+.morse-error {
+  color: #ef4444;          /* 失敗・ミス（警告の赤） */
+  text-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+}
 </style>
