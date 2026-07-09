@@ -1,0 +1,85 @@
+.title {
+    font-size: 50px;
+}
+
+.counter-containers {
+    width: 40%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.counter-container {
+    margin: 5px 0;
+}
+
+.category {
+    font-size: 20px;
+}
+
+.counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.counter input[type='number'] {
+    width: 85px;
+	padding: 10px 15px; /*ボックスを大きくする*/
+    margin: 5px;
+	font-size: 16px;
+	border-radius: 3px; /*ボックス角の丸み*/
+	border: 2px solid var(--color-main); /*枠線*/
+	box-sizing: border-box; /*横幅の解釈をpadding, borderまでとする*/
+}
+
+.counter input[type='number']:focus {
+    border: 2px solid #ff9900; 
+    z-index: 10;
+    outline: 0;
+}
+
+.counter input[type='range'] {
+  appearance: none;
+  padding: 0;
+  margin: 5px;
+  width: 70%;
+  max-width: 400px;
+  height: 1.5em;
+  border-radius: 0.5em;
+  &::-webkit-slider-thumb {
+    appearance: none;
+    padding: 0;
+    border: none;
+    width: 25%;
+    height: 1.5em;
+    border-radius: 0.5em;
+    background-color: green;
+    &:hover {
+      cursor: grab;
+    }
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &::-moz-range-thumb {
+    appearance: none;
+    padding: 0;
+    border: none;
+    width: 25%;
+    height: 1.25em;
+    border-radius: 5%;
+    background-color: pink;
+    &:hover {
+      cursor: grab;
+    }
+    &:active {
+      cursor: grabbing;
+    }
+  }
+  &:focus-visible {
+    box-shadow:
+      0 0 0 0.1rem purple,
+      0 0 0 0.2rem orange;
+  }
+}

@@ -5,10 +5,6 @@ import Button from '../../components/Button.tsx';
 ---
 
 <Layout>
-	//  正しい呼び出し方
-	<Setting count={10} client:load>
-	<span>現在のカウント</span>
-	</Setting>
-
+	<Setting client:load></Setting>
 	<Button href="/typing/game">game start</Button>
 </Layout>

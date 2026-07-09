@@ -1,7 +1,8 @@
 import { useStore } from '@nanostores/react';
 import { countVolume, countThreshold, countNumberOfQuestion } from '../stores';
+import '../../styles/setting.css'
 
-export default function Counter({ children, count: initialCount }: { children: React.JSX.Element; count: number }) {
+export default function Counter(){
   // モールス信号の音量
   const countVol = useStore(countVolume);
   // モールス信号の短音長音のしきい値
@@ -27,20 +28,32 @@ export default function Counter({ children, count: initialCount }: { children: R
 
   return (
     <>
-      <div className="counter-message">{children}</div>
-      <div>volume</div>
-      <div className="counter">
-        <input type='number' value={countVol} min={0} max={100} onChange={doChangeVolume}></input>
-        <input type='range' value={countVol} min={0} max={100} onChange={doChangeVolume}></input>
-      </div>
-      <div>morse threshold</div>
-      <div className='counter'>
-        <input type='number' value={countThr} min={0} max={1000} onChange={doChangeThreshold}></input>
-        <input type='range' value={countThr} min={0} max={1000} onChange={doChangeThreshold}></input>
-      </div>
-      <div>Number of Question</div>
-      <div className='counter'>
-        <input type="number" value={countQuestionNum} min={1} max={50} step={1} onChange={doChangeNumberOfQuestion}/>
+      <p className="title">Settings</p>
+      <div className='counter-containers'>
+
+        <div className='counter-container'>
+          <div className='category'>Volume</div>
+          <div className="counter">
+            <input type='number' value={countVol} min={0} max={100} onChange={doChangeVolume}></input>
+            <input type='range' value={countVol} min={0} max={100} onChange={doChangeVolume}></input>
+          </div>
+        </div>
+
+        <div className='counter-container'>
+          <div className='category'>Morse Threshold</div>
+          <div className='counter'>
+            <input type='number' value={countThr} min={1} max={1000} onChange={doChangeThreshold}></input>
+            <input type='range' value={countThr} min={1} max={1000} onChange={doChangeThreshold}></input>
+          </div>
+        </div>
+
+        <div className='counter-container'>
+          <div className='category'>Number of Question</div>
+          <div className='counter'>
+            <input type="number" value={countQuestionNum} min={1} max={50} step={5} onChange={doChangeNumberOfQuestion}/>
+            <input type="range" value={countQuestionNum} min={1} max={50} step={5} onChange={doChangeNumberOfQuestion}/>
+          </div>
+        </div>
       </div>
     </>
   );
