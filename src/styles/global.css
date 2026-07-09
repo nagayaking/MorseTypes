@@ -1,3 +1,4 @@
+
 /* 上にあるデモからカラーに関することだけ抜粋 */
 
 /* 「LIGHT」テーマのカラー設定 */
@@ -27,8 +28,19 @@ body {
     background: var(--color-background);
 }
 
+.container {
+    position: relative;
+    width: 100%;
+    height: auto !important;
+    height: 100%;
+    min-height: 100%;
+}
+
 .main-container {
-    height: 80%;
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    margin: 0 auto;
     align-content: center;
     text-align: center;
 }

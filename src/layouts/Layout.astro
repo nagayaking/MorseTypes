@@ -15,10 +15,12 @@ import '../styles/global.css';
 		<title>MorseTypes</title>
 	</head>
 	<body>
-		<Header />
-    <div class="main-container">
-		  <slot />
-    </div>
-		<Footer />
+		<div class="container">
+			<Header />
+			<div class="main-container">
+				<slot />
+			</div>
+			<Footer />
+		</div>
 	</body>
 </html>

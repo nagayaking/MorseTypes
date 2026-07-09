@@ -5,29 +5,26 @@ const SITE_TITLE = "MorseTypes";
 <header>
     <nav>
         <a href="/">
-          <h2>{SITE_TITLE}</h2>
+          <h1>{SITE_TITLE}</h1>
         </a>
-        <div>
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
-        </div>
     </nav>
 </header>
 <style>
   header {
+    position: absolute;
     margin: 0;
     padding: 0 1em;
-    background: white;
+    background: var(--color-background);
     box-shadow: 0 2px 8px rgba(var(--black), 5%);
+    z-index: 1;
   }
-  h2 {
+  h1 {
     margin: 0;
-    font-size: 1em;
+    font-size: 1.5em;
   }
 
-  h2 a,
-  h2 a.active {
+  h1 a,
+  h1 a.active {
     text-decoration: none;
   }
   nav {
