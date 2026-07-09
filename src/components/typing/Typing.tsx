@@ -1,6 +1,7 @@
 import MorseKeyPad from './MorseKeypad';
 import WordDisplay from "./WordDisplay";
 import useGameLogic from "../../hooks/useGameLogic";
+import ScoreBoard from './scoreBoard';
 
 import '../../styles/wordDisplayLayout.css'
 
@@ -17,15 +18,15 @@ export default function Typing(){
         convert,
         clearTimeRef,
         missCounter,
-        resetGame
+        resetGame,
+        totalCorrectKeystrokes
     } = useGameLogic();
 
     // ゲームクリアのチェック
     if (isGameFinished) {
         return (
         <>
-        <div>全問正解！！</div>
-        <ScoreBoard clearTime={clearTimeRef.current} miss={missCounter}/>
+        <ScoreBoard clearTime={clearTimeRef.current} miss={missCounter} totalCorrectKeystrokes={totalCorrectKeystrokes}/>
         <button className='btn' onClick={resetGame}>restart</button>
         <a className='btn' onClick={resetGame} href='settings'>to settings</a>
         </>
@@ -43,20 +44,6 @@ export default function Typing(){
         <MorseKeyPad onInput={handleAddSymbol} cnv={convert}/>
         </>
     )
-}
-
-interface ScoreBoardProps {
-    clearTime: number;
-    miss: number;
-}
-// スコアの表示
-function ScoreBoard({clearTime, miss}: ScoreBoardProps){
-    return(
-        <>
-        <div>miss: { miss }</div>
-        <div>Clear Time: { Math.floor(clearTime/10)/100 }s</div>
-        </>
-    );
 }
 
 // 入力中のデータ表示

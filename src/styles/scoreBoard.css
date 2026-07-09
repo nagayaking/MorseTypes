@@ -1,0 +1,16 @@
+.scores-container {
+    width: 100%;
+}
+
+.rank-text {
+    font-size: 60px;
+}
+
+.rank {
+    font-size: 100px;
+}
+
+.scores {
+    font-size: 30px;
+    margin: 10px;
+}

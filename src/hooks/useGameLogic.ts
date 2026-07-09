@@ -29,6 +29,8 @@ const useGameLogic = () => {
     const clearTimeRef = useRef(0);
     // ミス数を管理するState
     const [missCounter, setMissCounter] = useState(0);
+    // 打鍵数を記録するState
+    const [totalCorrectKeystrokes, setTotalCorrectKeystrokes] = useState(0);
 
     // 現在の問題を入れておく変数
     // 本文
@@ -79,6 +81,7 @@ const useGameLogic = () => {
                 setIsError(false);
                 // 全問正解の処理
                 if(currentExamNumber === numberOfQuestion - 1){
+                    setTotalCorrectKeystrokes(prev => prev + answerMorsecode.length);
                     isGameRef.current = false;
                     setIsGameFinished(true);
                     clearTimeRef.current = performance.now() - startTimeRef.current;
@@ -132,7 +135,8 @@ const useGameLogic = () => {
         convert,
         clearTimeRef,
         missCounter,
-        resetGame
+        resetGame,
+        totalCorrectKeystrokes
     };
 }
 
