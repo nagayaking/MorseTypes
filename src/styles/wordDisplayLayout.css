@@ -1,4 +1,3 @@
-
 /* =========================================
    状態ごとの色の設定（モールス信号）
    ========================================= */
@@ -28,33 +27,56 @@
   text-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
 }
 
-.morse-questions {
-    display: flex;
-    justify-content: space-around;
-    margin: 2em auto;
-    max-width: 950px;
+/* =========================================
+   レイアウト構造の加筆
+   ========================================= */
+
+/* 全体をまとめる親要素 */
+.word-display-container {
+  width: 100%;
+  display: flex;
+  font-size: 1.5rem;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* 1文字ごとのグループ（ひらがなとモールスを縦に並べる箱） */
+/* 💡 スライドを見せるための「窓」 */
+.slider-window {
+  width: 100%;
+  max-width: 800px;
+  height: 120px;    /* ひらがなとモールスが十分収まる高さ */
+  overflow: hidden; /* 窓からはみ出た過去や未来の文字を隠して見えなくする */
+  position: relative;
+}
+
+/* 💡 文字がすべて真横に並ぶ長いレール */
+.slider-track {
+  display: flex;
+  position: absolute;
+  left: 50%;        /* レールの原点を画面の真ん中にセット */
+  transition: transform 0.2s ease-out; /* 💡 この指定により移動がスムーズにアニメーションします */
+}
+
+/* 1文字ごとのグループ（ひらがな＋モールス） */
 .character-group {
   display: flex;
   flex-direction: column;
-  align-items: center;     /* 縦に並べた上で、中央揃えにする */
-  gap: 0.5rem;             /* ひらがなとモールス信号の上下の隙間 */
-  width: 150px;
-  height: 80px;
+  align-items: center;
+  width: 10rem;      /* 💡 JS側の charWidth と完全に一致させます */
+  flex-shrink: 0;   /* 文字数が増えても横幅が潰れないように固定します */
 }
 
-/* 上段：ひらがな部分 */
 .hiragana {
-    color: #4d9bdc;          /* 常に固定の濃いグレー */
-    font-weight: 500;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
-/* 下段：モールス信号のコンテナ */
 .morse-code {
-    display: flex;
-    font-family: monospace;  /* 「・」や「－」の幅を均等にするため等幅フォントを指定 */
-    letter-spacing: 0.1rem;  /* 記号同士がくっつきすぎないように隙間をあける */
-    font-size: 1.5rem;       /* ひらがなより少し小さめにするとバランスが良いです */
+  font-size: 1.4rem;
+  letter-spacing: 0.15rem;
+}
+
+.questionSentences h1, p {
+  margin: auto 0;
 }

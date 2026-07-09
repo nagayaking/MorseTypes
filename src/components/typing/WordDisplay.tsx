@@ -9,79 +9,73 @@ interface WordDisplayProps {
 
 // 問題文表示
 export default function WordDisplay({text, hurigana, pointer, morseBuffer}:WordDisplayProps){
-    // 💡 切り出し（slice）をやめて、常に「-2, -1, 0, 1, 2」の5つの相対位置を作る
-    const offsets = [-2, -1, 0, 1, 2];
+    // 1文字あたりの幅を指定（CSSの .character-group の width と一致させる）
+    const charWidth = 10; 
+    
+    // 0文字目が画面のちょうど中央（left: 50%）にくる配置から、
+    // 現在の pointer × 文字幅 分だけ左側（マイナス方向）に押し出していく移動量を計算
+    const offset = (charWidth / 2) + (pointer * charWidth);
 
     return(
-        <>
-        <h1>{text}</h1>
-        <div className="morse-questions">
-        {offsets.map((offset, index) => {
-            // 現在のポインターからの絶対的なインデックスを計算
-            const absoluteIndex = pointer + offset;
+        <div className="word-display-container">
+            <div className="questionSentences">
+            <h1>{text}</h1>
+            <p>{hurigana}</p>
+            </div>
             
-            // その位置に文字が実在するかをチェック（0以上、かつ文字列の長さ未満か）
-            const isValidIndex = absoluteIndex >= 0 && absoluteIndex < hurigana.length;
-            const char = isValidIndex ? hurigana[absoluteIndex] : null;
-
-            // 文字が存在しない（最初と最後の余白部分）場合は、透明なダミーを返す
-            if (!char) {
-                return (
-                    // visibility: "hidden" にすることで、場所だけ確保して見えなくする
-                    <div key={`empty-${index}`} className="character-group" style={{ visibility: "hidden" }}>
-                        <div className="hiragana">あ</div>
-                        <div className="morse-code">・・・</div>
-                    </div>
-                );
-            }
-            const answerMorse = HIRAGANA_MAP[char]; // （※辞書から取得する想定）
-            
-            // 画面に出力する前に、ここで条件分岐をして変数にJSXを詰め込んでおく
-            let morseContent;
-            
-            if (absoluteIndex < pointer) {
-                // 1. 過去（地味な色）
-                morseContent = <span className="morse-past">{answerMorse}</span>;
+            <div className="slider-window">
                 
-            } else if (absoluteIndex > pointer) {
-                // 2. 未来（通常の色）
-                morseContent = <span className="morse-future">{answerMorse}</span>;
-                
-            } else {
-                // 3. 現在（さらに分解して、それぞれに色を付ける）
-                morseContent = answerMorse.split("").map((mark, markIndex) => {
-                    // ここで morseBuffer（今入力している状況）と照らし合わせる
-                    let markClass = "morse-normal";
-                    
-                    if (markIndex < morseBuffer.length) {
-                        // 💡 プレイヤーが入力した記号と、正解の記号を比較する
-                        if (morseBuffer[markIndex] === mark) {
-                            markClass = "morse-correct"; // 正解なら緑色
+                {/* 実際に左にスライドしていく長いレール */}
+                <div 
+                    className="slider-track"
+                    style={{ transform: `translateX(-${offset}rem)` }}
+                >
+                    {hurigana.split("").map((char, index) => {
+                        const answerMorse = HIRAGANA_MAP[char];
+                        
+                        let morseContent;
+                        
+                        // index と pointer を直接比較して過去・未来・現在を決めます
+                        if (index < pointer) {
+                            // 1. 過去
+                            morseContent = <span className="morse-past">{answerMorse}</span>;
+                            
+                        } else if (index > pointer) {
+                            // 2. 未来
+                            morseContent = <span className="morse-future">{answerMorse}</span>;
+                            
                         } else {
-                            markClass = "morse-error";   // 間違っていたら赤色
+                            // 3. 現在
+                            morseContent = answerMorse.split("").map((mark, markIndex) => {
+                                let markClass = "morse-normal";
+                                
+                                if (markIndex < morseBuffer.length) {
+                                    if (morseBuffer[markIndex] === mark) {
+                                        markClass = "morse-correct";
+                                    } else {
+                                        markClass = "morse-error";
+                                    }
+                                }
+                                
+                                return (
+                                    <span key={markIndex} className={markClass}>
+                                        {mark}
+                                    </span>
+                                );
+                            });
                         }
-                    }
-                    
-                    
-                    return (
-                        <span key={markIndex} className={markClass}>
-                            {mark}
-                        </span>
-                    );
-                });
-            }
-            
-            // 💡 最後に、完成した変数を {morseContent} としてポンと置くだけ！
-            return (
-                <div key={index} className="character-group">
-                    <div className="hiragana">{char}</div>
-                    <div className="morse-code">
-                        {morseContent}
-                    </div>
+                        
+                        return (
+                            <div key={index} className="character-group">
+                                <div className="hiragana">{char}</div>
+                                <div className="morse-code">
+                                    {morseContent}
+                                </div>
+                            </div>
+                        );
+                    })}
                 </div>
-            );
-        })}
+            </div>
         </div>
-        </>
     )
 }
