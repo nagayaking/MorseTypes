@@ -2,6 +2,8 @@ import MorseKeyPad from './MorseKeypad';
 import WordDisplay from "./WordDisplay";
 import useGameLogic from "../../hooks/useGameLogic";
 
+import '../../styles/wordDisplayLayout.css'
+
 export default function Typing(){
     const {
         morseBuffer,
@@ -32,17 +34,13 @@ export default function Typing(){
     
     return(
         <>
-        <MorseKeyPad onInput={handleAddSymbol} cnv={convert}/>
-        {/* テスト表示用 */}
-        <div>現在のバッファ: {morseBuffer}</div>
-        <div>現在の問題: { currentExamText }</div>
-        <div>ひらがなの問題: {currentExamHurigana[currentExamPointer]}</div>
         <WordDisplay 
             text={ currentExamText } 
             hurigana={ currentExamHurigana } 
             pointer={ currentExamPointer } 
             morseBuffer={ morseBuffer }
         />
+        <MorseKeyPad onInput={handleAddSymbol} cnv={convert}/>
         </>
     )
 }

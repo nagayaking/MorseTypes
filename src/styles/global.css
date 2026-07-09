@@ -1,0 +1,64 @@
+/* 上にあるデモからカラーに関することだけ抜粋 */
+
+/* 「LIGHT」テーマのカラー設定 */
+:root[data-theme='LIGHT'] {
+--color-background: #F5F5F5;
+--color-main: #6D4C41;
+--color-sub: #FF9800;
+}
+
+/* 「DARK」テーマのカラー設定 */
+:root[data-theme='DARK'] {
+--color-background: #37474F;
+--color-main: #64B5F6;
+--color-sub: #F5F5F5;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--color-main);
+    background: var(--color-background);
+}
+
+.background {
+    background: var(--color-background);
+}
+
+.main-container {
+    height: 80%;
+    align-content: center;
+    text-align: center;
+}
+
+.main-text {
+    color: var(--color-main);
+}
+
+.sub-text {
+    color: var(--color-sub);
+}
+
+.normal-text {
+    color: black;
+    font-size: 24px;
+}
+
+.error-text {
+    color: red;
+    font-size: 24px;
+    font-weight: bold;
+    /* 必要に応じて、間違えた文字だけアニメーションで揺らすことも可能です！ */
+}
+
+/* 全体の横並びコンテナ（WordDisplayの一番外側） */
+.word-display-container {
+    display: flex;
+    justify-content: center; /* 画面の中央に配置 */
+    gap: 2rem;               /* 文字ごとの間隔（少し広めが見やすいです） */
+    font-size: 2rem;         /* 全体の文字サイズ */
+    font-weight: bold;
+}
+
